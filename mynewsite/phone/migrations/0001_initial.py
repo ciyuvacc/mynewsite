@@ -14,9 +14,10 @@ class Migration(migrations.Migration):
             name='Phonelist',
             fields=[
                 ('id', models.AutoField(verbose_name='ID', serialize=False, auto_created=True, primary_key=True)),
+                ('sku', models.CharField(max_length=20)),
                 ('name', models.CharField(max_length=20)),
                 ('price', models.PositiveIntegerField()),
-                ('qty', models.IntegerField(max_length=20)),
+                ('qty', models.IntegerField()),
             ],
         ),
     ]

@@ -1,6 +1,6 @@
 #coding:utf8
 from django.shortcuts import render
-from django.http import HttpResponse
+from django.http import HttpResponse,Http404
 from .models import Phonelist
 
 # Create your views here.
@@ -26,3 +26,32 @@ def listting(request):
         tags = tags + '<td>{}</td>'.format(p.price)
         tags = tags + '<td>{}</tr>'.format(p.qty)
     return HttpResponse(html.format(tags))
+
+def disp_detail(request,sku):
+    html = '''
+<!DOCTYPE html>
+<html>
+<head>
+<meta  charset='utf-8'>
+<title>{}</title>
+</head>
+<body>
+<h2>{}</h2>
+<hr>
+<table width=400 border=1 bgcolor='#ccffcc'>
+{}
+</table>
+<a href='/list'>返回列表</a>
+</body>
+</html>
+'''
+    try:
+        p = Phonelist.objects.get(sku=sku)
+    except Phonelist.DoesNotExist:
+        raise Http404('找不到指定的产品编号')
+    tags = '<tr><td>产品编号</td><td>{}</td></tr>'.format(p.sku)
+    tags = tags + '<tr><td>产品名称</td><td>{}</td></tr>'.format(p.name)
+    tags = tags + '<tr><td>二手价格</td><td>{}</td></tr>'.format(p.price)
+    tags = tags + '<tr><td>库存数量</td><td>{}</td></tr>'.format(p.qty)
+    #return HttpResponse(html.format(p.sku,p.name,tags))
+    return HttpResponse(html.format(p.sku,p.name,tags))
