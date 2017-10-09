@@ -95,3 +95,9 @@ def disp_detail(request,sku):
     html = template.render({'product':p})
   
     return HttpResponse(html)
+
+
+def index(request):
+    template = get_template('index.html')
+    html = template.render(locals())
+    return HttpResponse(html)
